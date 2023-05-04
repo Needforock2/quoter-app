@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLoaderData, Form, redirect, useNavigation, useSubmit } from "react-router-dom";
-import { getProducts, createContact } from "../contact.js";
+import { getProducts, createProduct } from "../contact.js";
 import { useEffect } from "react";
+import './root.css'
 
 export async function action(){
     const contact = await createContact()
@@ -8,16 +9,16 @@ export async function action(){
 }
 
 export async function loader({request}) { 
-    console.log("renderizando desde root")
+    
     const url = new URL(request.url)
     const q = url.searchParams.get("q");
-    const contacts = await getProducts(q);
-    return { contacts, q };
+    
+    return q;
 }
 
 export default function Root() {
     
-    const{ contacts, q }= useLoaderData();
+    const q = useLoaderData();
     const navigation = useNavigation()
     const submit = useSubmit()
     
@@ -67,21 +68,49 @@ export default function Root() {
             </Form>
           </div>
           <nav>
-           
-                    <NavLink
-                        to='/products'
-                        className={({ isActive, isPending }) =>
-                        isActive
-                            ? "active"
-                            : isPending
-                            ? "pending"
-                            : ""
-                        }
-                    >                        
-                        <>
-                            Productos
-                        </>                       
-                    </NavLink>
+            <NavLink
+              to='/products'
+              className={({ isActive, isPending }) =>
+              isActive
+                  ? "active"
+                  : isPending
+                  ? "pending"
+                  : ""
+              }
+              >                        
+              <>
+              <i className="bi bi-box-seam"></i>Lista de Productos
+                  
+              </>                       
+            </NavLink>
+            <NavLink
+              to='/customers'
+              className={({ isActive, isPending }) =>
+              isActive
+                  ? "active"
+                  : isPending
+                  ? "pending"
+                  : ""
+              }
+              >                        
+              <>
+              <i class="bi bi-people"></i>Lista de Clientes
+              </>                       
+            </NavLink>
+            <NavLink
+              to='/quotes'
+              className={({ isActive, isPending }) =>
+              isActive
+                  ? "active"
+                  : isPending
+                  ? "pending"
+                  : ""
+              }
+              >                        
+              <>
+              <i class="bi bi-file-earmark-spreadsheet"></i>Lista de Cotizaciones
+              </>                       
+            </NavLink>
            
           </nav>
         </div>

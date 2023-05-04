@@ -1,90 +1,102 @@
 import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
-import { deleteContact, updateContact } from "../contact";
+import { deleteContact, getProduct, updateContact } from "../contact";
+
 
 
 
 export async function action({request, params}){
   const formData = await request.formData() 
   const updates = Object.fromEntries(formData)  
-  console.log(formData)
-  if(!updates.cancel){
-    await deleteContact(params.contactId)
-    return (redirect(`/`))
-  }else{      
-    await updateContact(params.contactId, updates)
-    return (redirect(`/contacts/${params.contactId}`))
-  }
+  console.log(formData)    
+  await updateContact(params.contactId, updates)
+  return (redirect(`/contacts/${params.contactId}`))
+  
    
       
     
 }
 export async function loader({params}){
   console.log("render desde edit")
-  const contact = await getContact(params.contactId) 
-  return ({contact})
+  const product = await getProduct(params.productId) 
+  return ({product})
 }
 
 
-export default function EditContact() {
-  const { contact } = useLoaderData();
+export default function EditProduct() {
+  const { product } = useLoaderData();
     const navigate = useNavigate();
   return (
     <>
+      <h2>Creando Nuevo Producto  </h2>
+      <br/>
       <Form method="post" id="contact-form">
       <input name="cancel" defaultValue={true} hidden></input>
-      <p>
-        <span>Name</span>
+      <label className="d-flex flex-row justify-content-between align-items-center">
+        <span>Nombre</span>
         <input
-          placeholder="First"
+          placeholder="Nombre"
           aria-label="First name"
           type="text"
           name="first"
-          defaultValue={contact.first}
+          defaultValue={""}
         />
+         <span>Categoria</span>     
         <input
-          placeholder="Last"
+          placeholder="Categoría"
           aria-label="Last name"
           type="text"
           name="last"
-          defaultValue={contact.last}
-        />
-      </p>
-      <label>
-        <span>Twitter</span>
+          defaultValue={""}
+        />          
+      </label>
+     
+      <label className="d-flex flex-row justify-content-between align-items-center">
+        <span>Precio</span>
         <input
-          type="text"
+          type="number"
           name="twitter"
-          placeholder="@jack"
-          defaultValue={contact.twitter}
+          placeholder="$"
+          defaultValue={""}
         />
       </label>
-      <label>
-        <span>Avatar URL</span>
+      <label className="d-flex flex-row justify-content-between align-items-center">
+        <span>Stock</span>
+        <input
+          placeholder="#"
+          aria-label="Avatar URL"
+          type="number"
+          name="avatar"
+          defaultValue={""}
+        />
+      </label>
+      <label className="d-flex flex-row justify-content-between align-items-center">
+        <span>Url Foto</span>
         <input
           placeholder="https://example.com/avatar.jpg"
           aria-label="Avatar URL"
           type="text"
           name="avatar"
-          defaultValue={contact.avatar}
+          defaultValue={""}
         />
       </label>
       <label>
-        <span>Notes</span>
+        <span>Descripcion</span>
         <textarea
           name="notes"
-          defaultValue={contact.notes}
+          defaultValue={""}
           rows={6}
         />
       </label>
       <p>
         <button type="submit">Save</button>
-    
+        <button type="button" onClick={()=>{
+            navigate(-1)
+          }}>
+          Cancel</button>    
       </p>
-    </Form>
-    <Form method="post" >
-      <input name="cancel" defaultValue={contact.first} hidden></input>
-      <button type="submit">Cancel</button>
-    </Form>
+    </Form>      
+    
+    
     </>
     
   );

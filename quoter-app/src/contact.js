@@ -147,7 +147,7 @@ export async function getProducts(query) {
 
 }
 
-export async function createContact() {
+/* export async function createContact() {
   await fakeNetwork();
   let id = Math.random().toString(36).substring(2, 9);
   let contact = { id, createdAt: Date.now() };
@@ -155,6 +155,18 @@ export async function createContact() {
   contacts.unshift(contact);
   await set(contacts);
   return contact;
+} */
+
+export async function createProduct() {
+  await fakeNetwork();
+  let id = Math.random().toString(36).substring(2, 9);
+  let product = { id, createdAt: Date.now() };
+  console.log(product)
+  let products = await getProducts();
+  products.unshift(product);
+  await set(products);
+  console.log(products)
+  return product;
 }
 
 export async function getProduct(id) {  

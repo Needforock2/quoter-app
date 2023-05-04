@@ -38,3 +38,10 @@
   #item-list li a.pending {
     color: hsl(224, 98%, 58%);
   }
+
+  .newItemBar{
+    padding: 0;
+    text-align: left;
+    margin-bottom: 0.5rem;
+
+  }

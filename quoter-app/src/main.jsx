@@ -9,22 +9,21 @@ import Root, {
 import ErrorPage from './error-page';
 import Product, {
       loader as  productLoader,
+      action as productAction,
 } from './routes/products';
 
 
-import EditContact, {
-                    action as editAction,
-                  loader as editLoader} from './routes/edit';
+
 import {action as deleteContact} from './routes/destroy';
 import Index from './routes';
 import { Article, loader as articleLoader } from './routes/Article';
+import EditProduct, {loader as editLoader} from './routes/edit';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
-    errorElement: <ErrorPage />,
-    loader: rootLoader,
+    errorElement: <ErrorPage />,    
     action: rootAction,
     children: [
       {
@@ -38,20 +37,22 @@ const router = createBrowserRouter([
           path: "products/",
           element: <Product />,
           loader: productLoader,
+          action: productAction,
           children: [
-            {
-              path: "/products/:productId",
-              element: <Article />,
-              loader: articleLoader,
-            },
-          ]
+                      {
+                        path: "/products/:productId",
+                        element: <Article />,
+                        loader: articleLoader,
+                      },
+                    ]
           
         },
-        
-        /*{
-          path: "contacts/:contactId/destroy",
-          action: deleteContact,
-        }, */
+        {
+          path: "/products/:productId/edit",
+          element: <EditProduct />,
+          loader: editLoader,         
+        },
+       
       ],
     }      
     ]
