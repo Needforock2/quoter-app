@@ -6,7 +6,8 @@ import './products.css'
 
 
 export async function loader({params}){   
-    const products = await getProducts(params.contactId)    
+    const products = await getProducts(params.contactId) 
+    console.log(products)   
     return ({products})
 }
 
